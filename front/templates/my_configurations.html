@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои заявки - СборкаКомпьютеров</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+        </div>
+        <nav>
+            {% if user and user.admin == 1 %}
+                <button class="account-btn" onclick="location.href='{{ url_for('all_requests') }}'">Все заявки</button>
+            {% else %}
+                <button class="account-btn" onclick="location.href='{{ url_for('my_requests') }}'">Мои заявки</button>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        <!-- Таблица с заявками или конфигурациями -->
+    </main>
+</body>
+</html>

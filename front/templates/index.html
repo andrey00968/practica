@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>СборкаКомпьютеров - Главная</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+        </div>
+        <nav>
+            {% if username %}
+                <button class="account-btn" onclick="location.href='{{ url_for('personal_account') }}'">{{ username }}</button>
+                <button class="logout-btn" onclick="location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+            {% else %}
+                <button class="account-btn" onclick="location.href='{{ url_for('personal_account') }}'">Личный кабинет</button>
+            {% endif %}
+        </nav>
+    </header>
+    <main id="archive">
+        <div class="button-container">
+            <button class="archive-btn" onclick="location.href='{{ url_for('archive') }}'">Мой архив</button>
+            <button class="configurator-btn" onclick="location.href='{{ url_for('configurator') }}'">Конфигуратор</button>
+        </div>
+    </main>
+</body>
+</html>

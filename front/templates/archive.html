@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Архив - СборкаКомпьютеров</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+        </div>
+        <nav>
+            <button class="account-btn" onclick="location.href='{{ url_for('personal_account') }}'">Личный кабинет</button>
+        </nav>
+    </header>
+    <main id="archive">
+        <div class="button-container">
+            {% if user and user.admin == 1 %}
+                <button class="requests-btn" onclick="location.href='{{ url_for('all_requests') }}'">Все заявки</button>
+            {% else %}
+                <button class="requests-btn" onclick="location.href='{{ url_for('my_requests') }}'">Мои заявки</button>
+            {% endif %}
+            <button class="configurations-btn" onclick="location.href='{{ url_for('my_configurations') }}'">Мои конфигурации</button>
+        </div>
+    </main>
+</body>
+</html>
