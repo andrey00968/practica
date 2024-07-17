@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 
@@ -7,7 +8,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQu
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Параметры базы данных
-DATABASE = "sborka.db"
+basedir = os.path.abspath(os.path.dirname(__file__))
+DATABASE = os.path.join(basedir, 'sborka.db')
 TARGET_USER_ID = '-4279461578'
 user_to_target_message_map = {}
 
