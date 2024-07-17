@@ -7,8 +7,8 @@
       { "src": "Практика/static/js/**/*", "use": "@vercel/static" }
     ],
     "routes": [
-      { "src": "/static/css/(.*)", "dest": "/Практика/static/css/{1}" },
-      { "src": "/static/js/(.*)", "dest": "/Практика/static/js/{1}" },
+      { "src": "/static/css/(.*)", "dest": "/Практика/static/css" },
+      { "src": "/static/js/(.*)", "dest": "/Практика/static/js" },
       { "src": "/(.*)", "dest": "/Практика/app.py" }
     ]
   }
