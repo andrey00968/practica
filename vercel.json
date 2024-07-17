@@ -2,6 +2,7 @@
     "version": 2,
     "builds": [
       { "src": "app.py", "use": "@vercel/python" },
+      { "src": "bot.py", "use": "@vercel/python" },
       { "src": "templates/**/*", "use": "@vercel/static" },
       { "src": "static/css/**/*", "use": "@vercel/static" },
       { "src": "static/js/**/*", "use": "@vercel/static" }
