@@ -13,7 +13,7 @@
         {% if error %}
         <p style="color: red;">{{ error }}</p>
         {% endif %}
-        <form id="registration-form" method="POST" action="/personal_account">
+        <form id="registration-form" method="POST" action="{{ url_for('personal_account') }}">
             <div class="input-group">
                 <label for="username">Имя пользователя:</label>
                 <input type="text" id="username" name="username" required>
@@ -33,7 +33,7 @@
                 <button type="submit" id="submit-btn" class="register-btn" name="register">Регистрация</button>
             </div>
         </form>
-        <form id="login-form" method="POST" action="/personal_account" style="display: none;">
+        <form id="login-form" method="POST" action="{{ url_for('personal_account') }}" style="display: none;">
             <div class="input-group">
                 <label for="login-username">Имя пользователя:</label>
                 <input type="text" id="login-username" name="username" required>
@@ -80,7 +80,7 @@
         $(document).ready(function() {
             $('#username').on('input', function() {
                 const username = $(this).val();
-                $.post('/check_username', { username: username }, function(data) {
+                $.post('{{ url_for('check_username') }}', { username: username }, function(data) {
                     if (data.exists) {
                         $('#username-error').show();
                     } else {
