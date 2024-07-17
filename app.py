@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, session, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 import re
 import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sborka.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'sborka.db')
 app.config['SECRET_KEY'] = '1234'
 db = SQLAlchemy(app)
 
