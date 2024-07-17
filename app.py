@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import re
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../sborka.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sborka.db'
 app.config['SECRET_KEY'] = '1234'
 db = SQLAlchemy(app)
 
