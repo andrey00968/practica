@@ -81,49 +81,217 @@
             <h2>Материнская плата</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о материнских платах -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/plata1.jpg') }}" alt="MSI A520M-A PRO">
+                    <div class="details">
+                      <h2>MSI A520M-A PRO</h2>
+                      <p>[AM4, AMD A520, 2xDDR4-3200 МГц, 1xPCI-Ex16, 1xM.2, Micro-ATX]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-a520"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/plata2.jpg') }}" alt="MSI B550-A PRO">
+                    <div class="details">
+                      <h2>MSI B550-A PRO</h2>
+                      <p>[AM4, AMD B550, 4xDDR4-3200 МГц, 2xPCI-Ex16, 2xM.2, Standard-ATX]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-b550"></div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="component">
             <h2>Охлаждение</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о системах охлаждения -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/ohlad1.jpg') }}" alt="DEEPCOOL AG200">
+                    <div class="details">
+                      <h2>DEEPCOOL AG200</h2>
+                      <p>[основание - алюминий\медь, 3050 об/мин, 30.5 дБ, 4 pin, 100 Вт]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-ag200"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/ohlad2.jpg') }}" alt="ID-COOLING SE-224-XTS">
+                    <div class="details">
+                      <h2>ID-COOLING SE-224-XTS</h2>
+                      <p>[основание - алюминий\медь, 1500 об/мин, 28.9 дБ, 4 pin, 220 Вт]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-se224"></div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="component">
             <h2>Оперативная память</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о модулях оперативной памяти -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/memory1.jpg') }}" alt="ADATA XPG GAMMIX D10">
+                    <div class="details">
+                      <h2>ADATA XPG GAMMIX D10 16 GB</h2>
+                      <p>[DDR4, 8 ГБx2 шт, 3600 МГц, 18-22-22]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-d1016"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/memory2.jpg') }}" alt="Kingston FURY Beast Black">
+                    <div class="details">
+                      <h2>Kingston FURY Beast Black 32 GB</h2>
+                      <p>[DDR4, 16 ГБx2 шт, 3600 МГц, 18-22-22]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-fury"></div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="component">
             <h2>Видеокарта</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о видеокартах -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/video1.jpg') }}" alt="RTX 3050">
+                    <div class="details">
+                      <h2>Palit GeForce RTX 3050 StormX</h2>
+                      <p>[PCI-E 4.0 6 ГБ GDDR6, 96 бит, DisplayPort, DVI-D, HDMI, GPU 1042 МГц]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-3050"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/video2.jpg') }}" alt="RTX 4070">
+                    <div class="details">
+                      <h2>KFA2 GeForce RTX 4070 X 3FAN Black</h2>
+                      <p>[PCI-E 4.0 12 ГБ GDDR6X, 192 бит, 3 x DisplayPort, HDMI, GPU 1920 МГц]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-4070"></div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="component">
             <h2>Блок питания</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о блоках питания -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/blok1.jpg') }}" alt="DEEPCOOL PF450">
+                    <div class="details">
+                      <h2>DEEPCOOL PF450</h2>
+                      <p>[450 Вт, 80+, APFC, 20 + 4 pin, 4+4 pin CPU, 6 SATA, 6+2 pin x2 PCI-E]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-pf450"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/blok2.jpg') }}" alt="be quiet! Pure Power 11 600W">
+                    <div class="details">
+                      <h2>be quiet! Pure Power 11 600W</h2>
+                      <p>[600 Вт, 80+ Gold, APFC, 20 + 4 pin, 4+4 pin CPU, 6 SATA, 6+2 pin x4 PCI-E]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-bq600"></div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="component">
             <h2>Накопитель</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о накопителях -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/nak1.jpg') }}" alt="ADATA LEGEND 700 GOLD 512GB">
+                    <div class="details">
+                      <h2>ADATA LEGEND 700 GOLD 512 GB</h2>
+                      <p>[PCI-E 3.x x4, чтение - 2000 Мбайт/сек, запись - 1600 Мбайт/сек, NVM Express]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-ad700"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/nak2.jpg') }}" alt="Samsung 980 1000 GB">
+                    <div class="details">
+                      <h2>Samsung 980 1000 GB</h2>
+                      <p>[PCI-E 3.x x4, чтение - 3500 Мбайт/сек, запись - 3000 Мбайт/сек, 3 бит MLC (TLC), NVM Express]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-980"></div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="component">
             <h2>Корпус</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
-                <!-- Здесь будет информация о корпусах -->
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/corp1.jpg') }}" alt="DEEPCOOL MATREXX 30">
+                    <div class="details">
+                      <h2>DEEPCOOL MATREXX 30</h2>
+                      <p>[Mini-Tower, Micro-ATX, Mini-ITX, USB 2.0 Type-A, USB 3.2 Gen 1 Type-A, 1 x 120 мм]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-dc30"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/corp2.jpg') }}" alt="DEEPCOOL MATREXX 50">
+                    <div class="details">
+                      <h2>DEEPCOOL MATREXX 50</h2>
+                      <p>[Mid-Tower, E-ATX, Micro-ATX, Mini-ITX, Standard-ATX, USB 2.0 Type-A, USB 3.2 Gen 1 Type-A, 1 x 120 мм]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-dc50"></div>
+                  </div>
+                </div>
             </div>
         </div>
     </section>
