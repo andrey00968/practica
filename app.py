@@ -1,13 +1,18 @@
 from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from apscheduler.schedulers.background import BackgroundScheduler
+import requests
 import re
 import os
+from bs4 import BeautifulSoup
+from datetime import datetime
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'sborka.db')
 app.config['SECRET_KEY'] = '1234'
 db = SQLAlchemy(app)
+
 
 # Модель пользователя для SQLAlchemy
 class User(db.Model):
@@ -18,6 +23,12 @@ class User(db.Model):
     sborki = db.Column(db.Text, nullable=True)
     zayavki = db.Column(db.Text, nullable=True)
     admin = db.Column(db.Integer, default=0)
+
+class Detail(db.Model):
+    __tablename__ = 'details'
+    id = db.Column(db.Integer, primary_key=True)
+    detail = db.Column(db.String, nullable=False)
+    price_date = db.Column(db.String, nullable=False)
 
 # Главная страница
 @app.route('/')
@@ -236,6 +247,9 @@ def validate_password(password):
     if not re.search(r'[@$!%*?&.]', password):
         return False
     return True
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
 with app.app_context():
     db.create_all()
