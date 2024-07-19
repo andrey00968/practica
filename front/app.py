@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import re
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'sborka.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../../sborka.db'
 app.config['SECRET_KEY'] = '1234'
 db = SQLAlchemy(app)
 
@@ -64,64 +62,15 @@ def update_status():
 def configurator():
     return render_template('configurator.html')
 
-# Функция для парсинга конфигураций
-def parse_sborki(sborki_string):
-    pattern = re.compile(r"№(\d+):\s*(.*?)\n\n", re.DOTALL)
-    matches = pattern.findall(sborki_string)
-    return [(match[0], match[1].replace("\n", "<br>")) for match in matches]
-
 # Страница моих конфигураций
 @app.route('/my_configurations')
 def my_configurations():
     if 'user_id' in session:
         user = User.query.get(session['user_id'])
         if user:
-            sborki = []
-            if user.sborki:
-                sborki = parse_sborki(user.sborki)
-            return render_template('my_configurations.html', sborki=sborki, user=user)
+            sborki = user.sborki.split(';') if user.sborki else []
+            return render_template('my_configurations.html', sborki=sborki)
     return redirect('/personal_account')
-
-# Страница всех конфигураций для админа
-@app.route('/all_configurations')
-def all_configurations():
-    if 'user_id' in session:
-        user = User.query.get(session['user_id'])
-        if user and user.admin == 1:
-            all_sborki = []
-            users = User.query.all()
-            for u in users:
-                if u.sborki:
-                    sborki = parse_sborki(u.sborki)
-                    for sborka in sborki:
-                        all_sborki.append((sborka[0], sborka[1], u.username))
-            return render_template('all_configurations.html', sborki=all_sborki, user=user, is_admin=True)
-    return redirect('/personal_account')
-
-@app.route('/save_configuration', methods=['POST'])
-def save_configuration():
-    if 'user_id' not in session:
-        return redirect('/personal_account')
-
-    user = User.query.get(session['user_id'])
-    if not user:
-        return jsonify({'success': False})
-
-    config = request.json
-    config_str = '\n'.join([f'{value}' for key, value in config.items()])
-
-    if user.sborki:
-        # Подсчет количества сборок с использованием регулярного выражения для корректного учета всех номеров
-        import re
-        sborki = re.findall(r'№\d+:', user.sborki)
-        config_number = len(sborki) + 1
-        user.sborki += f'\n№{config_number}: "{config_str}"\n'
-    else:
-        config_number = 1
-        user.sborki = f'№{config_number}: "{config_str}"\n'
-
-    db.session.commit()
-    return jsonify({'success': True})
 
 # Страница моих заявок
 @app.route('/my_requests')
@@ -217,4 +166,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Мои конфигурации - СборкаКомпьютеров</title>
+    <title>Все конфигурации - СборкаКомпьютеров</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <style>
         table {
@@ -22,12 +22,15 @@
             width: 10%;
         }
         th:nth-child(2) {
-            width: 70%;
+            width: 60%;
         }
         th:nth-child(3) {
-            width: 20%;
+            width: 15%;
         }
-    </style>
+        th:nth-child(4) {
+            width: 15%;
+        }
+    </style>    
 </head>
 <body>
     <header>
@@ -35,7 +38,7 @@
             <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
         </div>
         <nav>
-            <button class="account-btn" onclick="location.href='{{ url_for('my_requests') }}'">Мои заявки</button>
+            <button class="account-btn" onclick="location.href='{{ url_for('all_requests') }}'">Все заявки</button>
         </nav>
     </header>
     <main>
@@ -44,6 +47,7 @@
                 <tr>
                     <th>Номер конфигурации</th>
                     <th>Комплектующие</th>
+                    <th>Пользователь</th>
                     <th>Статус конфигурации</th>
                 </tr>
             </thead>
@@ -52,11 +56,12 @@
                 <tr>
                     <td>{{ sborka[0] }}</td>
                     <td>{{ sborka[1] | safe }}</td>
+                    <td>{{ sborka[2] }}</td>
                     <td>
                         <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1"> Принята
                         <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2"> Выполнена
                         <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3"> Отклонена
-                        <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ user.username }}">Применить</button>
+                        <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ sborka[2] }}">Применить</button>
                     </td>
                 </tr>
                 {% endfor %}

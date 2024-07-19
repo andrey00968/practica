@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Конфигуратор ПК</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<style>
+    .component-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .component-info img {
+      width: 100px;
+    }
+    .component-info .details {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+    .component-info .price-chart-button {
+      margin-left: 10px;
+    }
+    .price-chart {
+      display: none;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+    </div>
+    <div class="account-btn">
+        <button class="account-btn" onclick="location.href='{{ url_for('personal_account') }}'">Личный кабинет</button>
+    </div>
+</header>
+
+<main>
+    <section class="configurator">
+        <h1>Соберите свой ПК</h1>
+        <section class="selected-components">
+            <h2>Ваша конфигурация</h2>
+            <div id="configuration"></div>
+        </section>
+        <div class="component">
+            <h2>Процессор</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/processor1.jpg') }}" alt="AMD Ryzen 7 5800X">
+                    <div class="details">
+                      <h2>AMD Ryzen 5 5600 OEM </h2>
+                      <p>[AM4, 6 x 3.5 ГГц, L2 - 3 МБ, L3 - 32 МБ, 2 х DDR4-3200 МГц, TDP 65 Вт]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-i7"></div>
+                  </div>
+                  <div class="component-info">
+                    <img src="{{ url_for('static', filename='images/processor2.jpg') }}" alt="AMD Ryzen 5 5600">
+                    <div class="details">
+                      <h2>AMD Ryzen 7 5800X OEM</h2>
+                      <p>[AM4, 8 x 3.8 ГГц, L2 - 4 МБ, L3 - 32 МБ, 2 х DDR4-3200 МГц, TDP 105 Вт]</p>
+                      <span>Цена: ХХХХ руб.</span>
+                    </div>
+                    <button class="add-btn">+</button>
+                    <button class="price-chart-button">График цен</button>
+                    <!-- Элемент для графика цен -->
+                    <div class="price-chart" id="price-chart-ryzen5"></div>
+                  </div>
+                </div>  
+            </div>
+        </div>
+        <!-- Добавляем новые подразделы -->
+        <div class="component">
+            <h2>Материнская плата</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о материнских платах -->
+            </div>
+        </div>
+        <div class="component">
+            <h2>Охлаждение</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о системах охлаждения -->
+            </div>
+        </div>
+        <div class="component">
+            <h2>Оперативная память</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о модулях оперативной памяти -->
+            </div>
+        </div>
+        <div class="component">
+            <h2>Видеокарта</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о видеокартах -->
+            </div>
+        </div>
+        <div class="component">
+            <h2>Блок питания</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о блоках питания -->
+            </div>
+        </div>
+        <div class="component">
+            <h2>Накопитель</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о накопителях -->
+            </div>
+        </div>
+        <div class="component">
+            <h2>Корпус</h2>
+            <button class="expand-btn">+</button>
+            <div class="additional-info" style="display:none;">
+                <!-- Здесь будет информация о корпусах -->
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+    function setupExpandButtons() {
+        var expandButtons = document.querySelectorAll('.expand-btn');
+        expandButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var component = btn.closest('.component');
+                var info = component.querySelector('.additional-info');
+                info.style.display = info.style.display === 'none' ? 'block' : 'none';
+                btn.textContent = info.style.display === 'block' ? '-' : '+';
+            });
+        });
+    }
+
+    function addToConfiguration(componentName, componentDetails) {
+    var configuration = document.getElementById('configuration');
+    var componentList = configuration.getElementsByTagName('ul')[0];
+    if (!componentList) {
+        componentList = document.createElement('ul');
+        configuration.appendChild(componentList);
+    }
+    var listItem = document.createElement('li');
+    listItem.textContent = componentName + ': ' + componentDetails;
+    var removeButton = document.createElement('button');
+    removeButton.onclick = function() {
+        componentList.removeChild(listItem);
+    };
+    listItem.appendChild(removeButton);
+    componentList.appendChild(listItem);
+}
+
+function setupAddButtons() {
+    var addButtons = document.querySelectorAll('.add-btn');
+    addButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var component = btn.closest('.component-info');
+            var componentName = component.querySelector('h2').textContent;
+            var componentDetails = component.querySelector('p').textContent;
+            addToConfiguration(componentName, componentDetails);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupExpandButtons();
+    setupAddButtons();
+});
+</script>
+</body>
+</html>

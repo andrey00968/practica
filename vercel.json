@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "builds": [
+      { "src": "Практика/app.py", "use": "@vercel/python" },
+      { "src": "Практика/templates/**/*", "use": "@vercel/static" },
+      { "src": "Практика/static/css/**/*", "use": "@vercel/static" },
+      { "src": "Практика/static/js/**/*", "use": "@vercel/static" }
+    ],
+    "routes": [
+      { "src": "/static/css/(.*)", "dest": "/Практика/static/css" },
+      { "src": "/static/js/(.*)", "dest": "/Практика/static/js" },
+      { "src": "/(.*)", "dest": "/Практика/app.py" }
+    ]
+  }
