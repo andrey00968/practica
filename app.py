@@ -74,6 +74,31 @@ def my_configurations():
             return render_template('my_configurations.html', sborki=sborki)
     return redirect('/personal_account')
 
+@app.route('/save_configuration', methods=['POST'])
+def save_configuration():
+    if 'user_id' not in session:
+        return redirect('/personal_account')
+
+    user = User.query.get(session['user_id'])
+    if not user:
+        return jsonify({'success': False})
+
+    config = request.json
+    config_str = '\n'.join([f'{value}' for key, value in config.items()])
+
+    if user.sborki:
+        # Подсчет количества сборок с использованием регулярного выражения для корректного учета всех номеров
+        import re
+        sborki = re.findall(r'№\d+:', user.sborki)
+        config_number = len(sborki) + 1
+        user.sborki += f'\n№{config_number}: "{config_str}"\n'
+    else:
+        config_number = 1
+        user.sborki = f'№{config_number}: "{config_str}"\n'
+
+    db.session.commit()
+    return jsonify({'success': True})
+
 # Страница моих заявок
 @app.route('/my_requests')
 def my_requests():

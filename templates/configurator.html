@@ -7,23 +7,56 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 <style>
     .component-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
     }
     .component-info img {
-      width: 100px;
+        width: 100px;
     }
     .component-info .details {
-      flex-grow: 1;
-      margin-left: 10px;
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+    .component-info .price-chart-button,
+    .component-info .add-btn {
+        margin-left: 10px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
     }
     .component-info .price-chart-button {
-      margin-left: 10px;
+        background-color: #007BFF;
+        color: white;
+    }
+    .component-info .add-btn {
+        background-color: #28A745;
+        color: white;
+    }
+    .component-info .price-chart-button:hover,
+    .component-info .add-btn:hover {
+        opacity: 0.8;
     }
     .price-chart {
-      display: none;
+        display: none;
+    }
+    /* Добавить стили для кнопки "Сохранить" */
+    #save-button {
+        display: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+    #save-button:hover {
+        opacity: 0.8;
     }
 </style>
 </head>
@@ -38,21 +71,32 @@
     </div>
 </header>
 
+
 <main>
     <section class="configurator">
         <h1>Соберите свой ПК</h1>
         <section class="selected-components">
             <h2>Ваша конфигурация</h2>
-            <div id="configuration"></div>
+            <div id="configuration">
+                <div id="config-processor"><h3>Процессор</h3></div>
+                <div id="config-plata"><h3>Материнская плата</h3></div>
+                <div id="config-ohlad"><h3>Охлаждение</h3></div>
+                <div id="config-ozu"><h3>Оперативная память</h3></div>
+                <div id="config-video"><h3>Видеокарта</h3></div>
+                <div id="config-power"><h3>Блок питания</h3></div>
+                <div id="config-ssd"><h3>Накопитель</h3></div>
+                <div id="config-case"><h3>Корпус</h3></div>
+            </div>
+            <button id="save-button">Сохранить</button>
         </section>
-        <div class="component">
+        <div class="component" id="processor">
             <h2>Процессор</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
                 <div class="component-info">
                     <img src="{{ url_for('static', filename='images/processor1.jpg') }}" alt="AMD Ryzen 7 5800X">
                     <div class="details">
-                      <h2>AMD Ryzen 5 5600 OEM </h2>
+                      <h2>AMD Ryzen 5 5600</h2>
                       <p>[AM4, 6 x 3.5 ГГц, L2 - 3 МБ, L3 - 32 МБ, 2 х DDR4-3200 МГц, TDP 65 Вт]</p>
                       <span>Цена: ХХХХ руб.</span>
                     </div>
@@ -64,7 +108,7 @@
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/processor2.jpg') }}" alt="AMD Ryzen 5 5600">
                     <div class="details">
-                      <h2>AMD Ryzen 7 5800X OEM</h2>
+                      <h2>AMD Ryzen 7 5800X</h2>
                       <p>[AM4, 8 x 3.8 ГГц, L2 - 4 МБ, L3 - 32 МБ, 2 х DDR4-3200 МГц, TDP 105 Вт]</p>
                       <span>Цена: ХХХХ руб.</span>
                     </div>
@@ -77,7 +121,7 @@
             </div>
         </div>
         <!-- Добавляем новые подразделы -->
-        <div class="component">
+        <div class="component" id="plata">
             <h2>Материнская плата</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -108,7 +152,7 @@
                 </div>
             </div>
         </div>
-        <div class="component">
+        <div class="component" id="ohlad">
             <h2>Охлаждение</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -139,7 +183,7 @@
                 </div>
             </div>
         </div>
-        <div class="component">
+        <div class="component" id="ozu">
             <h2>Оперативная память</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -170,7 +214,7 @@
                 </div>
             </div>
         </div>
-        <div class="component">
+        <div class="component" id="video">
             <h2>Видеокарта</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -201,7 +245,7 @@
                 </div>
             </div>
         </div>
-        <div class="component">
+        <div class="component" id="power">
             <h2>Блок питания</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -232,7 +276,7 @@
                 </div>
             </div>
         </div>
-        <div class="component">
+        <div class="component" id="ssd">
             <h2>Накопитель</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -263,7 +307,7 @@
                 </div>
             </div>
         </div>
-        <div class="component">
+        <div class="component" id="case">
             <h2>Корпус</h2>
             <button class="expand-btn">+</button>
             <div class="additional-info" style="display:none;">
@@ -309,21 +353,43 @@
         });
     }
 
-    function addToConfiguration(componentName, componentDetails) {
-    var configuration = document.getElementById('configuration');
-    var componentList = configuration.getElementsByTagName('ul')[0];
-    if (!componentList) {
-        componentList = document.createElement('ul');
-        configuration.appendChild(componentList);
-    }
-    var listItem = document.createElement('li');
-    listItem.textContent = componentName + ': ' + componentDetails;
-    var removeButton = document.createElement('button');
-    removeButton.onclick = function() {
-        componentList.removeChild(listItem);
+    function addToConfiguration(section, name) {
+    const sectionNames = {
+        'processor': 'Процессор',
+        'plata': 'Материнская плата',
+        'ohlad': 'Охлаждение',
+        'ozu': 'Оперативная память',
+        'video': 'Видеокарта',
+        'power': 'Блок питания',
+        'ssd': 'Накопитель',
+        'case': 'Корпус'
     };
-    listItem.appendChild(removeButton);
-    componentList.appendChild(listItem);
+
+    const configSection = document.getElementById('config-' + section);
+    if (configSection && sectionNames[section]) {
+        configSection.innerHTML = `<h3>${sectionNames[section]}: ${name}</h3>`;
+    }
+    checkSaveButton(); // Добавляем проверку кнопки после обновления раздела
+}
+function checkSaveButton() {
+    const sections = ['processor', 'plata', 'ohlad', 'ozu', 'video', 'power', 'ssd', 'case'];
+    const allFilled = sections.every(section => {
+        const configSection = document.getElementById('config-' + section);
+        return configSection && configSection.innerHTML.trim() !== '';
+    });
+
+    let saveButton = document.getElementById('save-button');
+    if (allFilled) {
+        if (!saveButton) {
+            saveButton = document.createElement('button');
+            saveButton.id = 'save-button';
+            saveButton.textContent = 'Сохранить';
+            document.getElementById('configuration').appendChild(saveButton);
+        }
+        saveButton.style.display = 'block';
+    } else if (saveButton) {
+        saveButton.style.display = 'none';
+    }
 }
 
 function setupAddButtons() {
@@ -332,8 +398,8 @@ function setupAddButtons() {
         btn.addEventListener('click', function() {
             var component = btn.closest('.component-info');
             var componentName = component.querySelector('h2').textContent;
-            var componentDetails = component.querySelector('p').textContent;
-            addToConfiguration(componentName, componentDetails);
+            var section = btn.closest('.component').id; // Получаем id родительского элемента
+            addToConfiguration(section, componentName);
         });
     });
 }
@@ -341,6 +407,47 @@ function setupAddButtons() {
 document.addEventListener('DOMContentLoaded', function() {
     setupExpandButtons();
     setupAddButtons();
+
+    const saveButton = document.getElementById('save-button');
+    if (saveButton) {
+        saveButton.addEventListener('click', function() {
+            // Collect configuration data
+            const config = {};
+            const sections = ['processor', 'plata', 'ohlad', 'ozu', 'video', 'power', 'ssd', 'case'];
+            sections.forEach(section => {
+                const configSection = document.getElementById('config-' + section);
+                if (configSection && configSection.innerHTML.trim() !== '') {
+                    config[section] = configSection.innerText.replace(`${section[0].toUpperCase() + section.slice(1)}: `, '').trim();
+                }
+            });
+
+            // Send the data to the server
+            fetch('/save_configuration', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(config),
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url; // Redirect if not authenticated
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Конфигурация успешно сохранена!');
+                } else {
+                    alert('Произошла ошибка при сохранении конфигурации.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    }
 });
 </script>
 </body>
