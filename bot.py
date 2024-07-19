@@ -135,7 +135,7 @@ async def button_pressed(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(f'Ваши заявки:\n{requests_data}')
     elif query.data == 'my_configurations':
         configurations_data = get_sborki_data_from_db(username)
-        await query.message.reply_text(f'Ваши конфигурации:\n{configurations_data}')
+        await query.message.reply_text(f'Ваши конфигурации:\n\n{configurations_data} \n1 - конфигурация принята, 2 - конфигурация выполнена, 3 - конфигурация отклонена')
     elif query.data == 'go_back':
         keyboard = [
             [
