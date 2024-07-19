@@ -44,6 +44,21 @@ def update_status():
     statuses = data['statuses']
     username = data['username']
     
+    user = User.query.filter(User.username == username, User.sborki.like(f'%№{number}%')).first()
+    if user:
+        sborki = user.sborki.split('\n\n')  # Конфигурации разделены двойным абзацем
+        for i, sborka in enumerate(sborki):
+            if f'№{number}' in sborka:
+                parts = sborka.split(': ', 1)  # Разделяем только на две части
+                if len(parts) > 1:
+                    text = parts[1].strip().strip('"')
+                    status = f": {', '.join(statuses)}"
+                    sborki[i] = f'№{number}: "{text}"{status}'
+        user.sborki = '\n\n'.join(sborki)
+        db.session.commit()
+        print(f"Updated configuration status for user {user.username}: {user.sborki}")
+        return '', 204
+
     user = User.query.filter(User.username == username, User.zayavki.like(f'%№{number}%')).first()
     if user:
         zayavki = user.zayavki.split('\n')
@@ -69,7 +84,15 @@ def parse_sborki(sborki_string):
     # Регулярное выражение для парсинга конфигураций
     pattern = re.compile(r"№(\d+):\s*([^№]+?)(?=\n\n|$)", re.DOTALL)
     matches = pattern.findall(sborki_string)
-    return [(match[0], match[1].strip().replace("\n", "<br>")) for match in matches]
+    result = []
+    for match in matches:
+        number, content = match
+        # Пытаемся найти статус
+        status_match = re.search(r':\s*\d+', content)
+        status = status_match.group(0).strip() if status_match else ""
+        content = content.replace(status, "").strip()
+        result.append((number, content.strip().replace("\n", "<br>"), status))
+    return result
 
 # Страница моих конфигураций
 @app.route('/my_configurations')
@@ -116,7 +139,7 @@ def save_configuration():
         import re
         sborki = re.findall(r'№\d+:', user.sborki)
         config_number = len(sborki) + 1
-        user.sborki += f'\n№{config_number}: "{config_str}"\n'
+        user.sborki += f'\n\n№{config_number}: "{config_str}"\n'
     else:
         config_number = 1
         user.sborki = f'№{config_number}: "{config_str}"\n'
