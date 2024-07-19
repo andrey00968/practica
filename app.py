@@ -66,9 +66,10 @@ def configurator():
 
 # Функция для парсинга конфигураций
 def parse_sborki(sborki_string):
-    pattern = re.compile(r"№(\d+):\s*(.*?)\n\n", re.DOTALL)
+    # Регулярное выражение для парсинга конфигураций
+    pattern = re.compile(r"№(\d+):\s*([^№]+?)(?=\n\n|$)", re.DOTALL)
     matches = pattern.findall(sborki_string)
-    return [(match[0], match[1].replace("\n", "<br>")) for match in matches]
+    return [(match[0], match[1].strip().replace("\n", "<br>")) for match in matches]
 
 # Страница моих конфигураций
 @app.route('/my_configurations')

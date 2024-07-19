@@ -58,9 +58,9 @@
                     <td>{{ sborka[1] | safe }}</td>
                     <td>{{ sborka[2] }}</td>
                     <td>
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1"> Принята
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2"> Выполнена
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3"> Отклонена
+                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1" {% if '1' in sborka[3] %}checked{% endif %}> Принята
+                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2" {% if '2' in sborka[3] %}checked{% endif %}> Выполнена
+                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3" {% if '3' in sborka[3] %}checked{% endif %}> Отклонена
                         <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ sborka[2] }}">Применить</button>
                     </td>
                 </tr>

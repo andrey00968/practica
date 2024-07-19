@@ -53,46 +53,15 @@
                     <td>{{ sborka[0] }}</td>
                     <td>{{ sborka[1] | safe }}</td>
                     <td>
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1"> Принята
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2"> Выполнена
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3"> Отклонена
-                        <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ user.username }}">Применить</button>
+                        {% if '1' in sborka[2] %} Принята
+                        {% elif '2' in sborka[2] %} Выполнена
+                        {% elif '3' in sborka[2] %} Отклонена
+                        {% else %} Не определен {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </main>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const applyButtons = document.querySelectorAll('.apply-btn');
-            applyButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const number = this.dataset.number;
-                    const username = this.dataset.username;
-                    const checkboxes = document.querySelectorAll(`.status-checkbox[data-number="${number}"]`);
-                    const statuses = [];
-                    checkboxes.forEach(checkbox => {
-                        if (checkbox.checked) {
-                            statuses.push(checkbox.dataset.status);
-                        }
-                    });
-                    fetch('/update_status', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ number, statuses, username })
-                    }).then(response => {
-                        if (response.ok) {
-                            console.log('Status updated successfully');
-                        } else {
-                            console.error('Failed to update status');
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 </body>
 </html>
