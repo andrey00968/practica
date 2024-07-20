@@ -250,6 +250,28 @@ def get_latest_price_route(detail):
         return jsonify({'price': latest_price})
     return jsonify({'error': 'Price not found'}), 404
 
+def fetch_price_history(detail):
+    database_path = os.path.join(basedir, 'sborka.db')
+    conn = sqlite3.connect(database_path)
+    cursor = conn.cursor()
+    cursor.execute('SELECT price_data FROM details WHERE detail=?', (detail,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result and result[0]:
+        prices = result[0].strip().split('\n')
+        price_history = [{'price': p.split(':')[0], 'date': p.split(':')[1]} for p in prices if ':' in p]
+        price_history.sort(key=lambda x: x['date'])  # Сортируем по дате
+        return price_history
+    return []
+
+@app.route('/get_price_history/<detail>')
+def get_price_history(detail):
+    price_history = fetch_price_history(detail)
+    if price_history:
+        return jsonify({'prices': price_history})
+    return jsonify({'error': 'Price not found'}), 404
+
 def validate_password(password):
     if len(password) < 8:
         return False
