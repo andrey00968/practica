@@ -185,14 +185,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         username = context.user_data.get('username')
         logging.info(f'Заявка от {username}: {request_text}')
 
-        # Обновление заявок в базе данных
-        update_user_request_in_db(username, request_text)
-        await context.bot.send_message(
-            chat_id=TARGET_USER_ID,
-            text=f'Заявка от {username}: {request_text}'
-        )
-        await update.message.reply_text('Ваша заявка отправлена.')
-        context.user_data['stage'] = 'menu'
+        # Проверка на наличие абзацев
+        if '\n' in request_text:
+            await update.message.reply_text('Заявка не может быть отправлена, так как в ней используются абзацы. Пожалуйста, отправьте заявку заново без абзацев.')
+        else:
+            # Обновление заявок в базе данных
+            update_user_request_in_db(username, request_text)
+            await context.bot.send_message(
+                chat_id=TARGET_USER_ID,
+                text=f'Заявка от {username}: {request_text}'
+            )
+            await update.message.reply_text('Ваша заявка отправлена.')
+            context.user_data['stage'] = 'menu'
     elif stage == 'awaiting_username':
         await check_username(update, context)
     elif stage == 'awaiting_password':
