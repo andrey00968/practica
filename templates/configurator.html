@@ -107,6 +107,20 @@
         // Initialize charts for all components
         fetchAndDisplayPriceHistory('Ryzen 5 5600', 'price-chart-ryzen5');
         fetchAndDisplayPriceHistory('Ryzen 7 5800X', 'price-chart-ryzen7');
+        fetchAndDisplayPriceHistory('MSI A520M-A PRO', 'price-chart-a520');
+        fetchAndDisplayPriceHistory('MSI B550-A PRO', 'price-chart-b550');
+        fetchAndDisplayPriceHistory('DEEPCOOL AG200', 'price-chart-ag200');
+        fetchAndDisplayPriceHistory('ID-COOLING SE-224-XTS', 'price-chart-se224');
+        fetchAndDisplayPriceHistory('ADATA XPG GAMMIX D10 16 GB', 'price-chart-d1016');
+        fetchAndDisplayPriceHistory('Kingston FURY Beast Black 32 GB', 'price-chart-fury');
+        fetchAndDisplayPriceHistory('Palit GeForce RTX 3050 StormX', 'price-chart-3050');
+        fetchAndDisplayPriceHistory('KFA2 GeForce RTX 4070 X 3FAN Black', 'price-chart-4070');
+        fetchAndDisplayPriceHistory('DEEPCOOL PF450', 'price-chart-pf450');
+        fetchAndDisplayPriceHistory('be quiet! Pure Power 11 600W', 'price-chart-bq600');
+        fetchAndDisplayPriceHistory('ADATA LEGEND 700 GOLD 512 GB', 'price-chart-ad700');
+        fetchAndDisplayPriceHistory('Samsung 980 1000 GB', 'price-chart-980');
+        fetchAndDisplayPriceHistory('DEEPCOOL MATREXX 30', 'price-chart-dc30');
+        fetchAndDisplayPriceHistory('DEEPCOOL MATREXX 50', 'price-chart-dc50');
     });
     </script>
     
@@ -225,7 +239,6 @@
             </div>
         </div>
         </div>
-        <!-- Добавляем новые подразделы -->
         <div class="component" id="plata">
             <h2>Материнская плата</h2>
             <button class="expand-btn">+</button>
@@ -238,10 +251,8 @@
                       <span id="price-a520">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-a520"></div>
-                  </div>
+                    <canvas id="price-chart-a520" width="400" height="200"></canvas>
+                </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/plata2.jpg') }}" alt="MSI B550-A PRO">
                     <div class="details">
@@ -250,12 +261,11 @@
                       <span id="price-b550">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-ryzen7" width="400" height="200"></canvas>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-b550"></div>
-                  </div>
+                    <canvas id="price-chart-b550" width="400" height="200"></canvas>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         <div class="component" id="ohlad">
             <h2>Охлаждение</h2>
@@ -269,9 +279,7 @@
                       <span id="price-ag200">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-ag200"></div>
+                    <canvas id="price-chart-ag200" width="400" height="200"></canvas>
                   </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/ohlad2.jpg') }}" alt="ID-COOLING SE-224-XTS">
@@ -281,9 +289,7 @@
                       <span id="price-se224">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-se224"></div>
+                    <canvas id="price-chart-se224" width="400" height="200"></canvas>
                   </div>
                 </div>
             </div>
@@ -300,9 +306,7 @@
                       <span id="price-d1016">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-d1016"></div>
+                    <canvas id="price-chart-d1016" width="400" height="200"></canvas>
                   </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/memory2.jpg') }}" alt="Kingston FURY Beast Black">
@@ -312,9 +316,7 @@
                       <span id="price-fury32">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-fury"></div>
+                    <canvas id="price-chart-fury" width="400" height="200"></canvas>
                   </div>
                 </div>
             </div>
@@ -331,9 +333,7 @@
                       <span id="price-3050">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-3050"></div>
+                    <canvas id="price-chart-3050" width="400" height="200"></canvas>
                   </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/video2.jpg') }}" alt="RTX 4070">
@@ -342,10 +342,8 @@
                       <p>[PCI-E 4.0 12 ГБ GDDR6X, 192 бит, 3 x DisplayPort, HDMI, GPU 1920 МГц]</p>
                       <span id="price-4070">Цена: ХХХХ руб.</span>
                     </div>
-                    <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-4070"></div>
+                    <button class="add-btn">+</button>>
+                    <canvas id="price-chart-4070" width="400" height="200"></canvas>
                   </div>
                 </div>
             </div>
@@ -362,9 +360,7 @@
                       <span id="price-pf450">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-pf450"></div>
+                    <canvas id="price-chart-pf450" width="400" height="200"></canvas>
                   </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/blok2.jpg') }}" alt="be quiet! Pure Power 11 600W">
@@ -374,9 +370,7 @@
                       <span id="price-600w">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-bq600"></div>
+                    <canvas id="price-chart-bq600" width="400" height="200"></canvas>
                   </div>
                 </div>
             </div>
@@ -393,9 +387,7 @@
                       <span id="price-700g">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-ad700"></div>
+                    <canvas id="price-chart-ad700" width="400" height="200"></canvas>
                   </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/nak2.jpg') }}" alt="Samsung 980 1000 GB">
@@ -405,9 +397,7 @@
                       <span id="price-s980">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-980"></div>
+                    <canvas id="price-chart-980" width="400" height="200"></canvas>
                   </div>
                 </div>
             </div>
@@ -424,9 +414,7 @@
                       <span id="price-dc30">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-dc30"></div>
+                    <canvas id="price-chart-dc30" width="400" height="200"></canvas>
                   </div>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/corp2.jpg') }}" alt="DEEPCOOL MATREXX 50">
@@ -436,9 +424,7 @@
                       <span id="price-dc50">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <button class="price-chart-button">График цен</button>
-                    <!-- Элемент для графика цен -->
-                    <div class="price-chart" id="price-chart-dc50"></div>
+                    <canvas id="price-chart-dc50" width="400" height="200"></canvas>
                   </div>
                 </div>
             </div>
