@@ -4,6 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Конфигуратор ПК</title>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const components = [
+            {id: 'ryzen5', detail: 'Ryzen 5 5600'},
+            {id: 'ryzen7', detail: 'Ryzen 7 5800X'},
+            {id: 'a520', detail: 'MSI A520M-A PRO'},
+            {id: 'b550', detail: 'MSI B550-A PRO'},
+            {id: 'ag200', detail: 'DEEPCOOL AG200'},
+            {id: 'se224', detail: 'ID-COOLING SE-224-XTS'},
+            {id: 'd1016', detail: 'ADATA XPG GAMMIX D10 16 GB'},
+            {id: 'fury32', detail: 'Kingston FURY Beast Black 32 GB'},
+            {id: '3050', detail: 'Palit GeForce RTX 3050 StormX'},
+            {id: '4070', detail: 'KFA2 GeForce RTX 4070 X 3FAN Black'},
+            {id: 'pf450', detail: 'DEEPCOOL PF450'},
+            {id: '600w', detail: 'be quiet! Pure Power 11 600W'},
+            {id: '700g', detail: 'ADATA LEGEND 700 GOLD 512 GB'},
+            {id: 's980', detail: 'Samsung 980 1000 GB'},
+            {id: 'dc30', detail: 'DEEPCOOL MATREXX 30'},
+            {id: 'dc50', detail: 'DEEPCOOL MATREXX 50'}
+        ];
+
+        components.forEach(component => {
+            fetch(`/get_latest_price/${component.detail}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById(`price-${component.id}`).textContent = `Цена: ${data.price} руб.`;
+                })
+                .catch(error => console.error('Error fetching price:', error));
+        });
+    });
+</script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 <style>
     .component-info {
@@ -98,7 +129,7 @@
                     <div class="details">
                       <h2>AMD Ryzen 5 5600</h2>
                       <p>[AM4, 6 x 3.5 ГГц, L2 - 3 МБ, L3 - 32 МБ, 2 х DDR4-3200 МГц, TDP 65 Вт]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-ryzen5">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -110,7 +141,7 @@
                     <div class="details">
                       <h2>AMD Ryzen 7 5800X</h2>
                       <p>[AM4, 8 x 3.8 ГГц, L2 - 4 МБ, L3 - 32 МБ, 2 х DDR4-3200 МГц, TDP 105 Вт]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-ryzen7">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -130,7 +161,7 @@
                     <div class="details">
                       <h2>MSI A520M-A PRO</h2>
                       <p>[AM4, AMD A520, 2xDDR4-3200 МГц, 1xPCI-Ex16, 1xM.2, Micro-ATX]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-a520">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -142,7 +173,7 @@
                     <div class="details">
                       <h2>MSI B550-A PRO</h2>
                       <p>[AM4, AMD B550, 4xDDR4-3200 МГц, 2xPCI-Ex16, 2xM.2, Standard-ATX]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-b550">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -161,7 +192,7 @@
                     <div class="details">
                       <h2>DEEPCOOL AG200</h2>
                       <p>[основание - алюминий\медь, 3050 об/мин, 30.5 дБ, 4 pin, 100 Вт]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-ag200">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -173,7 +204,7 @@
                     <div class="details">
                       <h2>ID-COOLING SE-224-XTS</h2>
                       <p>[основание - алюминий\медь, 1500 об/мин, 28.9 дБ, 4 pin, 220 Вт]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-se224">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -192,7 +223,7 @@
                     <div class="details">
                       <h2>ADATA XPG GAMMIX D10 16 GB</h2>
                       <p>[DDR4, 8 ГБx2 шт, 3600 МГц, 18-22-22]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-d1016">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -204,7 +235,7 @@
                     <div class="details">
                       <h2>Kingston FURY Beast Black 32 GB</h2>
                       <p>[DDR4, 16 ГБx2 шт, 3600 МГц, 18-22-22]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-fury32">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -223,7 +254,7 @@
                     <div class="details">
                       <h2>Palit GeForce RTX 3050 StormX</h2>
                       <p>[PCI-E 4.0 6 ГБ GDDR6, 96 бит, DisplayPort, DVI-D, HDMI, GPU 1042 МГц]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-3050">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -235,7 +266,7 @@
                     <div class="details">
                       <h2>KFA2 GeForce RTX 4070 X 3FAN Black</h2>
                       <p>[PCI-E 4.0 12 ГБ GDDR6X, 192 бит, 3 x DisplayPort, HDMI, GPU 1920 МГц]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-4070">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -254,7 +285,7 @@
                     <div class="details">
                       <h2>DEEPCOOL PF450</h2>
                       <p>[450 Вт, 80+, APFC, 20 + 4 pin, 4+4 pin CPU, 6 SATA, 6+2 pin x2 PCI-E]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-pf450">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -266,7 +297,7 @@
                     <div class="details">
                       <h2>be quiet! Pure Power 11 600W</h2>
                       <p>[600 Вт, 80+ Gold, APFC, 20 + 4 pin, 4+4 pin CPU, 6 SATA, 6+2 pin x4 PCI-E]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-600w">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -285,7 +316,7 @@
                     <div class="details">
                       <h2>ADATA LEGEND 700 GOLD 512 GB</h2>
                       <p>[PCI-E 3.x x4, чтение - 2000 Мбайт/сек, запись - 1600 Мбайт/сек, NVM Express]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-700g">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -297,7 +328,7 @@
                     <div class="details">
                       <h2>Samsung 980 1000 GB</h2>
                       <p>[PCI-E 3.x x4, чтение - 3500 Мбайт/сек, запись - 3000 Мбайт/сек, 3 бит MLC (TLC), NVM Express]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-s980">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -316,7 +347,7 @@
                     <div class="details">
                       <h2>DEEPCOOL MATREXX 30</h2>
                       <p>[Mini-Tower, Micro-ATX, Mini-ITX, USB 2.0 Type-A, USB 3.2 Gen 1 Type-A, 1 x 120 мм]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-dc30">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>
@@ -328,7 +359,7 @@
                     <div class="details">
                       <h2>DEEPCOOL MATREXX 50</h2>
                       <p>[Mid-Tower, E-ATX, Micro-ATX, Mini-ITX, Standard-ATX, USB 2.0 Type-A, USB 3.2 Gen 1 Type-A, 1 x 120 мм]</p>
-                      <span>Цена: ХХХХ руб.</span>
+                      <span id="price-dc50">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
                     <button class="price-chart-button">График цен</button>

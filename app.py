@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 import re
 import os
+import sqlite3
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
@@ -45,6 +46,7 @@ def update_status():
     statuses = data['statuses']
     username = data['username']
     
+
     user = User.query.filter(User.username == username, User.sborki.like(f'%№{number}%')).first()
     if user:
         sborki = user.sborki.split('\n\n')  # Конфигурации разделены двойным абзацем
@@ -226,6 +228,27 @@ def check_username():
     if user:
         return jsonify({'exists': True})
     return jsonify({'exists': False})
+
+def fetch_latest_price(detail):
+    database_path = os.path.join(basedir, 'sborka.db')
+    conn = sqlite3.connect(database_path)
+    cursor = conn.cursor()
+    cursor.execute('SELECT price_data FROM details WHERE detail=?', (detail,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result:
+        prices = result[0].split('\n')
+        latest_price = prices[-1].split(':')[0]  # Берем только цену, без даты
+        return latest_price
+    return None
+
+@app.route('/get_latest_price/<detail>')
+def get_latest_price_route(detail):
+    latest_price = fetch_latest_price(detail)
+    if latest_price:
+        return jsonify({'price': latest_price})
+    return jsonify({'error': 'Price not found'}), 404
 
 def validate_password(password):
     if len(password) < 8:
