@@ -128,6 +128,9 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 <style>
+    canvas {
+        max-height: 400px;
+    }
     .component-info {
         display: flex;
         align-items: center;
@@ -187,7 +190,7 @@
 
 <header>
     <div class="logo">
-        <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+        <a href="{{ url_for('index') }}">Сборка Компьютеров</a>
     </div>
     <div class="account-btn">
         <button class="account-btn" onclick="location.href='{{ url_for('personal_account') }}'">Личный кабинет</button>
@@ -224,8 +227,9 @@
                         <span id="price-ryzen5">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-ryzen5" width="400" height="200"></canvas>
+                    
                 </div>
+                <canvas id="price-chart-ryzen5" width="400" height="200"></canvas>
                 <div class="component-info">
                     <img src="{{ url_for('static', filename='images/processor2.jpg') }}" alt="AMD Ryzen 7 5800X">
                     <div class="details">
@@ -234,8 +238,9 @@
                         <span id="price-ryzen7">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-ryzen7" width="400" height="200"></canvas>
+                    
                 </div>
+                <canvas id="price-chart-ryzen7" width="400" height="200"></canvas>
             </div>
         </div>
         </div>
@@ -251,8 +256,9 @@
                       <span id="price-a520">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-a520" width="400" height="200"></canvas>
+                    
                 </div>
+                <canvas id="price-chart-a520" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/plata2.jpg') }}" alt="MSI B550-A PRO">
                     <div class="details">
@@ -261,8 +267,9 @@
                       <span id="price-b550">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-b550" width="400" height="200"></canvas>
+                    
                 </div>
+                <canvas id="price-chart-b550" width="400" height="200"></canvas>
             </div>
         </div>
         </div>
@@ -279,8 +286,9 @@
                       <span id="price-ag200">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-ag200" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-ag200" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/ohlad2.jpg') }}" alt="ID-COOLING SE-224-XTS">
                     <div class="details">
@@ -289,8 +297,9 @@
                       <span id="price-se224">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-se224" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-se224" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -306,8 +315,9 @@
                       <span id="price-d1016">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-d1016" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-d1016" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/memory2.jpg') }}" alt="Kingston FURY Beast Black">
                     <div class="details">
@@ -316,8 +326,9 @@
                       <span id="price-fury32">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-fury" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-fury" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -333,8 +344,9 @@
                       <span id="price-3050">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-3050" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-3050" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/video2.jpg') }}" alt="RTX 4070">
                     <div class="details">
@@ -343,8 +355,9 @@
                       <span id="price-4070">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>>
-                    <canvas id="price-chart-4070" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-4070" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -360,8 +373,9 @@
                       <span id="price-pf450">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-pf450" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-pf450" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/blok2.jpg') }}" alt="be quiet! Pure Power 11 600W">
                     <div class="details">
@@ -370,8 +384,9 @@
                       <span id="price-600w">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-bq600" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-bq600" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -387,8 +402,9 @@
                       <span id="price-700g">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-ad700" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-ad700" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/nak2.jpg') }}" alt="Samsung 980 1000 GB">
                     <div class="details">
@@ -397,8 +413,9 @@
                       <span id="price-s980">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-980" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-980" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -414,8 +431,9 @@
                       <span id="price-dc30">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-dc30" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-dc30" width="400" height="200"></canvas>
                   <div class="component-info">
                     <img src="{{ url_for('static', filename='images/corp2.jpg') }}" alt="DEEPCOOL MATREXX 50">
                     <div class="details">
@@ -424,8 +442,9 @@
                       <span id="price-dc50">Цена: ХХХХ руб.</span>
                     </div>
                     <button class="add-btn">+</button>
-                    <canvas id="price-chart-dc50" width="400" height="200"></canvas>
+                    
                   </div>
+                  <canvas id="price-chart-dc50" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
