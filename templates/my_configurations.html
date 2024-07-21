@@ -27,12 +27,34 @@
         th:nth-child(3) {
             width: 20%;
         }
+        .button-link {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        color: white;
+        background-color: #00aaff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        margin-right: 10px; /* Разделение кнопок */
+    }
+    .button-link:hover {
+        background-color: #0088cc;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 20px;
+    }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">
-            <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+            <a href="{{ url_for('index') }}">Сборка Компьютеров</a>
         </div>
         <nav>
             <button class="account-btn" onclick="location.href='{{ url_for('my_requests') }}'">Мои заявки</button>
@@ -62,6 +84,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="container">
+            <button class="button-link" onclick="location.href='{{ url_for('configurator') }}'">Собрать конфигурацию</button>
+        </div>
     </main>
 </body>
 </html>

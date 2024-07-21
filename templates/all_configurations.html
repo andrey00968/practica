@@ -55,12 +55,48 @@
         .apply-btn:hover {
             background-color: #000000;
         }
+        .notification {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+        .notification.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
     </style>    
 </head>
 <body>
     <header>
         <div class="logo">
-            <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+            <a href="{{ url_for('index') }}">Сборка Компьютеров</a>
         </div>
         <nav>
             <button class="account-btn" onclick="location.href='{{ url_for('all_requests') }}'">Все заявки</button>
@@ -84,13 +120,13 @@
                     <td>{{ sborka[2] }}</td>
                     <td>
                         <div>
-                            <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1" {% if '1' in sborka[3] %}checked{% endif %}> Принята
+                            <input type="radio" name="status-{{ sborka[0] }}" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1" {% if '1' in sborka[3] %}checked{% endif %}> Принята
                         </div>
                         <div>
-                            <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2" {% if '2' in sborka[3] %}checked{% endif %}> Выполнена
+                            <input type="radio" name="status-{{ sborka[0] }}" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2" {% if '2' in sborka[3] %}checked{% endif %}> Выполнена
                         </div>
                         <div>
-                            <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3" {% if '3' in sborka[3] %}checked{% endif %}> Отклонена
+                            <input type="radio" name="status-{{ sborka[0] }}" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3" {% if '3' in sborka[3] %}checked{% endif %}> Отклонена
                         </div>
                         <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ sborka[2] }}" data-type="configuration">Применить</button>
                     </td>
@@ -98,6 +134,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div id="notification" class="notification">Конфигурация обработана</div>
     </main>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -122,13 +159,21 @@
                         body: JSON.stringify({ number, statuses, username, type })
                     }).then(response => {
                         if (response.ok) {
-                            console.log('Status updated successfully');
+                            showNotification();
                         } else {
                             console.error('Failed to update status');
                         }
                     });
                 });
             });
+
+            function showNotification() {
+                const notification = document.getElementById('notification');
+                notification.className = 'notification show';
+                setTimeout(() => {
+                    notification.className = notification.className.replace('show', '');
+                }, 3000);
+            }
         });
     </script>
 </body>

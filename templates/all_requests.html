@@ -92,7 +92,7 @@
 <body>
 <header>
     <div class="logo">
-        <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
+        <a href="{{ url_for('index') }}">Сборка Компьютеров</a>
     </div>
     <nav>
         {% if user %}
@@ -122,13 +122,13 @@
     <td>{{ zayavka[2] }}</td>
     <td>
         <div>
-            <input type="checkbox" class="status-checkbox" data-number="{{ zayavka[0] }}" data-status="1" {% if '1' in zayavka[3] %}checked{% endif %}> Принята
+            <input type="radio" name="status-{{ zayavka[0] }}" class="status-checkbox" data-number="{{ zayavka[0] }}" data-status="1" {% if '1' in zayavka[3] %}checked{% endif %}> Принята
         </div>
         <div>
-            <input type="checkbox" class="status-checkbox" data-number="{{ zayavka[0] }}" data-status="2" {% if '2' in zayavka[3] %}checked{% endif %}> Выполнена
+            <input type="radio" name="status-{{ zayavka[0] }}" class="status-checkbox" data-number="{{ zayavka[0] }}" data-status="2" {% if '2' in zayavka[3] %}checked{% endif %}> Выполнена
         </div>
         <div>
-            <input type="checkbox" class="status-checkbox" data-number="{{ zayavka[0] }}" data-status="3" {% if '3' in zayavka[3] %}checked{% endif %}> Отклонена
+            <input type="radio" name="status-{{ zayavka[0] }}" class="status-checkbox" data-number="{{ zayavka[0] }}" data-status="3" {% if '3' in zayavka[3] %}checked{% endif %}> Отклонена
         </div>
         <button class="apply-btn" data-number="{{ zayavka[0] }}" data-username="{{ zayavka[2] }}" data-type="request">Применить</button>
     </td>

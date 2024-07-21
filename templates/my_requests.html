@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мои заявки</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-<header>
-    <style>
+<style>
     table {
         width: 100%;
         border-collapse: collapse;
@@ -35,13 +32,33 @@
     th:nth-child(3), td:nth-child(3) {
         width: 20%;
     }
+    .telegram-link {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        color: white;
+        background-color: #00aaff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
     .telegram-link:hover {
-            text-decoration: underline; /* Подчеркивание при наведении */
-        }
+        background-color: #0088cc;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 20px;
+    }
 </style>
+</head>
+<body>
+<header>
     <div class="logo">
-        <a href="{{ url_for('index') }}">СборкаКомпьютеров</a>
-            <a href="https://t.me/sborkapc00968_bot" class="telegram-link" target="_blank">Бот для создания заявок</a>
+        <a href="{{ url_for('index') }}">Сборка Компьютеров</a>
     </div>
     <nav>
         {% if user %}
@@ -75,6 +92,9 @@
         </tr>
         {% endfor %}
     </table>
+    <div class="container">
+        <a href="https://t.me/sborkapc00968_bot" class="telegram-link" target="_blank">Бот для создания заявок</a>
+    </div>
 </main>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
