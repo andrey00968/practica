@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, session, flash, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 import re
 import os
 import sqlite3
+from docx import Document
+import pandas as pd
+import io
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
@@ -303,6 +307,41 @@ def validate_password(password):
     if not re.search(r'[@$!%*?&.]', password):
         return False
     return True
+
+@app.route('/download_docx')
+def download_docx():
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user and user.zayavki:
+            doc = Document()
+            for zayavka in user.zayavki.split('\n'):
+                if zayavka.strip():
+                    doc.add_paragraph(zayavka)
+            file_stream = io.BytesIO()
+            doc.save(file_stream)
+            file_stream.seek(0)
+            return send_file(file_stream, as_attachment=True, download_name='zayavki.docx')
+    return redirect('/personal_account')
+
+@app.route('/download_xlsx')
+def download_xlsx():
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user and user.zayavki:
+            data = []
+            for zayavka in user.zayavki.split('\n'):
+                if zayavka.strip():
+                    parts = zayavka.split(': ')
+                    number = parts[0].split('№')[1]
+                    text = parts[1].strip('"')
+                    status = parts[2] if len(parts) > 2 else ''
+                    data.append([number, text, status])
+            df = pd.DataFrame(data, columns=['Номер заявки', 'Текст заявки', 'Статус заявки'])
+            file_stream = io.BytesIO()
+            df.to_excel(file_stream, index=False, engine='xlsxwriter')
+            file_stream.seek(0)
+            return send_file(file_stream, as_attachment=True, download_name='zayavki.xlsx')
+    return redirect('/personal_account')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

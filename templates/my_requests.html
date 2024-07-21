@@ -32,7 +32,7 @@
     th:nth-child(3), td:nth-child(3) {
         width: 20%;
     }
-    .telegram-link {
+    .telegram-link, .download-btn {
         display: inline-block;
         padding: 10px 20px;
         margin-top: 20px;
@@ -46,6 +46,18 @@
     }
     .telegram-link:hover {
         background-color: #0088cc;
+    }
+    .download-btn.docx {
+        background-color: #0000ff;
+    }
+    .download-btn.xlsx {
+        background-color: #008000;
+    }
+    .download-btn.docx:hover {
+        background-color: #0000cc;
+    }
+    .download-btn.xlsx:hover {
+        background-color: #006600;
     }
     .container {
         display: flex;
@@ -94,6 +106,8 @@
     </table>
     <div class="container">
         <a href="https://t.me/sborkapc00968_bot" class="telegram-link" target="_blank">Бот для создания заявок</a>
+        <a href="{{ url_for('download_docx') }}" class="download-btn">Скачать DOCX</a>
+        <a href="{{ url_for('download_xlsx') }}" class="download-btn">Скачать XLSX</a>
     </div>
 </main>
 <script>
