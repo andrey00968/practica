@@ -8,27 +8,52 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        tr:nth-child(even) {
+            background-color: #000;
+            color: #fff;
+        }
+        tr:nth-child(odd) {
+            background-color: #323232;
+            color: #fff;
         }
         th {
-            background-color: #4CAF50; /* Зелёный цвет фона для заголовков */
-            color: white; /* Белый цвет текста */
+            background-color: #4CAF50;
+            color: white;
         }
-        th:nth-child(1) {
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th:nth-child(1), td:nth-child(1) {
             width: 10%;
         }
-        th:nth-child(2) {
+        th:nth-child(2), td:nth-child(2) {
             width: 60%;
         }
-        th:nth-child(3) {
+        th:nth-child(3), td:nth-child(3) {
             width: 15%;
         }
-        th:nth-child(4) {
+        th:nth-child(4), td:nth-child(4) {
             width: 15%;
+        }
+        .status-checkbox {
+            margin-right: 10px;
+        }
+        .apply-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .apply-btn:hover {
+            background-color: #000000;
         }
     </style>    
 </head>
@@ -58,10 +83,16 @@
                     <td>{{ sborka[1] | safe }}</td>
                     <td>{{ sborka[2] }}</td>
                     <td>
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1" {% if '1' in sborka[3] %}checked{% endif %}> Принята
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2" {% if '2' in sborka[3] %}checked{% endif %}> Выполнена
-                        <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3" {% if '3' in sborka[3] %}checked{% endif %}> Отклонена
-                        <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ sborka[2] }}">Применить</button>
+                        <div>
+                            <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="1" {% if '1' in sborka[3] %}checked{% endif %}> Принята
+                        </div>
+                        <div>
+                            <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="2" {% if '2' in sborka[3] %}checked{% endif %}> Выполнена
+                        </div>
+                        <div>
+                            <input type="checkbox" class="status-checkbox" data-number="{{ sborka[0] }}" data-status="3" {% if '3' in sborka[3] %}checked{% endif %}> Отклонена
+                        </div>
+                        <button class="apply-btn" data-number="{{ sborka[0] }}" data-username="{{ sborka[2] }}" data-type="configuration">Применить</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -75,6 +106,7 @@
                 button.addEventListener('click', function() {
                     const number = this.dataset.number;
                     const username = this.dataset.username;
+                    const type = this.dataset.type;
                     const checkboxes = document.querySelectorAll(`.status-checkbox[data-number="${number}"]`);
                     const statuses = [];
                     checkboxes.forEach(checkbox => {
@@ -87,7 +119,7 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ number, statuses, username })
+                        body: JSON.stringify({ number, statuses, username, type })
                     }).then(response => {
                         if (response.ok) {
                             console.log('Status updated successfully');

@@ -45,36 +45,57 @@ def update_status():
     number = data['number']
     statuses = data['statuses']
     username = data['username']
+    obj_type = data['type']
+    new_status = f": {', '.join(statuses)}"
+
+    user = User.query.filter(User.username == username).first()
     
-
-    user = User.query.filter(User.username == username, User.sborki.like(f'%№{number}%')).first()
-    if user:
-        sborki = user.sborki.split('\n\n')  # Конфигурации разделены двойным абзацем
-        for i, sborka in enumerate(sborki):
-            if f'№{number}' in sborka:
-                parts = sborka.split(': ', 1)  # Разделяем только на две части
-                if len(parts) > 1:
-                    text = parts[1].strip().strip('"')
-                    status = f": {', '.join(statuses)}"
-                    sborki[i] = f'№{number}: "{text}"{status}'
-        user.sborki = '\n\n'.join(sborki)
-        db.session.commit()
-        print(f"Updated configuration status for user {user.username}: {user.sborki}")
+    if not user:
+        print(f"No user found with username {username}")
         return '', 204
+    
+    updated = False
 
-    user = User.query.filter(User.username == username, User.zayavki.like(f'%№{number}%')).first()
-    if user:
-        zayavki = user.zayavki.split('\n')
-        for i, z in enumerate(zayavki):
-            if f'№{number}' in z:
-                parts = z.split(': ')
-                text = parts[1].strip('"')
-                zayavki[i] = f'№{number}: "{text}": {", ".join(statuses)}'
-        user.zayavki = '\n'.join(zayavki)
-        db.session.commit()
-        print(f"Updated status for user {user.username}: {user.zayavki}")
-    else:
-        print(f"No user found with username {username} and request number {number}")
+    if obj_type == 'configuration':
+        # Обработка сборок
+        if user.sborki and f'№{number}' in user.sborki:
+            sborki = user.sborki.split('\n\n')  # Конфигурации разделены двойным абзацем
+            for i, sborka in enumerate(sborki):
+                if f'№{number}' in sborka:
+                    parts = sborka.split(': ', 1)
+                    if len(parts) > 1:
+                        text = parts[1].strip().strip('"')
+                        # Проверка и удаление старого статуса, если он существует
+                        if '": ' in text:
+                            text, _ = text.rsplit('": ', 1)
+                        sborki[i] = f'№{number}: "{text}"{new_status}'
+                        updated = True
+            if updated:
+                user.sborki = '\n\n'.join(sborki)
+                db.session.commit()
+                print(f"Updated configuration status for user {user.username}: {user.sborki}")
+                return '', 204
+    elif obj_type == 'request':
+        # Обработка заявок
+        if user.zayavki and f'№{number}' in user.zayavki:
+            zayavki = user.zayavki.split('\n')  # Заявки разделены одиночным абзацем
+            for i, z in enumerate(zayavki):
+                if f'№{number}' in z:
+                    parts = z.split(': ', 1)
+                    if len(parts) > 1:
+                        text = parts[1].strip().strip('"')
+                        # Проверка и удаление старого статуса, если он существует
+                        if '": ' in text:
+                            text, _ = text.rsplit('": ', 1)
+                        zayavki[i] = f'№{number}: "{text}"{new_status}'
+                        updated = True
+            if updated:
+                user.zayavki = '\n'.join(zayavki)
+                db.session.commit()
+                print(f"Updated status for user {user.username}: {user.zayavki}")
+                return '', 204
+
+    print(f"No matching request number {number} found for user {username}")
     return '', 204
 
 # Страница конфигуратора
