@@ -14,7 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'sb
 app.config['SECRET_KEY'] = '1234'
 db = SQLAlchemy(app)
 
-
 # Модель пользователя для SQLAlchemy
 class User(db.Model):
     __tablename__ = 'users'
@@ -61,15 +60,13 @@ def update_status():
     updated = False
 
     if obj_type == 'configuration':
-        # Обработка сборок
         if user.sborki and f'№{number}' in user.sborki:
-            sborki = user.sborki.split('\n\n')  # Конфигурации разделены двойным абзацем
+            sborki = user.sborki.split('\n\n')
             for i, sborka in enumerate(sborki):
                 if f'№{number}' in sborka:
                     parts = sborka.split(': ', 1)
                     if len(parts) > 1:
                         text = parts[1].strip().strip('"')
-                        # Проверка и удаление старого статуса, если он существует
                         if '": ' in text:
                             text, _ = text.rsplit('": ', 1)
                         sborki[i] = f'№{number}: "{text}"{new_status}'
@@ -80,15 +77,13 @@ def update_status():
                 print(f"Updated configuration status for user {user.username}: {user.sborki}")
                 return '', 204
     elif obj_type == 'request':
-        # Обработка заявок
         if user.zayavki and f'№{number}' in user.zayavki:
-            zayavki = user.zayavki.split('\n')  # Заявки разделены одиночным абзацем
+            zayavki = user.zayavki.split('\n')
             for i, z in enumerate(zayavki):
                 if f'№{number}' in z:
                     parts = z.split(': ', 1)
                     if len(parts) > 1:
                         text = parts[1].strip().strip('"')
-                        # Проверка и удаление старого статуса, если он существует
                         if '": ' in text:
                             text, _ = text.rsplit('": ', 1)
                         zayavki[i] = f'№{number}: "{text}"{new_status}'
@@ -109,7 +104,6 @@ def configurator():
 
 # Функция для парсинга конфигураций
 def parse_sborki(sborki_string):
-    # Регулярное выражение для парсинга конфигураций
     pattern = re.compile(r"№(\d+):\s*([^№]+?)(?=\n\n|$)", re.DOTALL)
     matches = pattern.findall(sborki_string)
     result = []
@@ -163,7 +157,6 @@ def save_configuration():
     config_str = '\n'.join([f'{value}' for key, value in config.items()])
 
     if user.sborki:
-        # Подсчет количества сборок с использованием регулярного выражения для корректного учета всех номеров
         import re
         sborki = re.findall(r'№\d+:', user.sborki)
         config_number = len(sborki) + 1
@@ -264,7 +257,7 @@ def fetch_latest_price(detail):
 
     if result:
         prices = result[0].split('\n')
-        latest_price = prices[-1].split(':')[0]  # Берем только цену, без даты
+        latest_price = prices[-1].split(':')[0]
         return latest_price
     return None
 
@@ -286,7 +279,7 @@ def fetch_price_history(detail):
     if result and result[0]:
         prices = result[0].strip().split('\n')
         price_history = [{'price': p.split(':')[0], 'date': p.split(':')[1]} for p in prices if ':' in p]
-        price_history.sort(key=lambda x: x['date'])  # Сортируем по дате
+        price_history.sort(key=lambda x: x['date'])
         return price_history
     return []
 
@@ -314,9 +307,22 @@ def download_docx():
         user = User.query.get(session['user_id'])
         if user and user.zayavki:
             doc = Document()
+            status_mapping = {
+                '1': 'Принята',
+                '2': 'Выполнена',
+                '3': 'Отклонена'
+            }
             for zayavka in user.zayavki.split('\n'):
-                if zayavka.strip():
+                zayavka = zayavka.strip()
+                if zayavka:
+                    parts = zayavka.split(': ')
+                    if len(parts) > 2:
+                        status = parts[2].strip()
+                        if status in status_mapping:
+                            parts[2] = status_mapping[status]
+                        zayavka = ': '.join(parts)
                     doc.add_paragraph(zayavka)
+
             file_stream = io.BytesIO()
             doc.save(file_stream)
             file_stream.seek(0)
@@ -331,16 +337,73 @@ def download_xlsx():
             data = []
             for zayavka in user.zayavki.split('\n'):
                 if zayavka.strip():
-                    parts = zayavka.split(': ')
-                    number = parts[0].split('№')[1]
-                    text = parts[1].strip('"')
+                    parts = [part.strip() for part in zayavka.split(': ')]
+                    number = parts[0].split('№')[1] if len(parts) > 0 else ''
+                    text = parts[1].strip('"') if len(parts) > 1 else ''
                     status = parts[2] if len(parts) > 2 else ''
                     data.append([number, text, status])
             df = pd.DataFrame(data, columns=['Номер заявки', 'Текст заявки', 'Статус заявки'])
+            status_mapping = {
+                '1': 'Принята',
+                '2': 'Выполнена',
+                '3': 'Отклонена'
+            }
+            df['Статус заявки'] = df['Статус заявки'].replace(status_mapping)
+            
             file_stream = io.BytesIO()
             df.to_excel(file_stream, index=False, engine='xlsxwriter')
             file_stream.seek(0)
+            
             return send_file(file_stream, as_attachment=True, download_name='zayavki.xlsx')
+    return redirect('/personal_account')
+
+@app.route('/download_config_docx')
+def download_config_docx():
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user and user.sborki:
+            doc = Document()
+            status_mapping = {
+                '1': 'Принята',
+                '2': 'Выполнена',
+                '3': 'Отклонена'
+            }
+            configurations = user.sborki.split('\n')
+            current_configuration = []
+
+            for line in configurations:
+                line = line.strip()
+                if line:
+                    if re.match(r'№\d+:', line):
+                        if current_configuration:
+                            for item in current_configuration:
+                                parts = re.split(r': (?=\d+|Принята|Выполнена|Отклонена)', item)
+                                if len(parts) > 1:
+                                    status = parts[-1].strip()
+                                    if status in status_mapping:
+                                        parts[-1] = status_mapping[status]
+                                    item = ': '.join(parts)
+                                doc.add_paragraph(item)
+                            doc.add_paragraph()
+                            current_configuration = []
+                        current_configuration.append(line)
+                    else:
+                        current_configuration.append(line)
+            if current_configuration:
+                for item in current_configuration:
+                    parts = re.split(r': (?=\d+|Принята|Выполнена|Отклонена)', item)
+                    if len(parts) > 1:
+                        status = parts[-1].strip()
+                        if status in status_mapping:
+                            parts[-1] = status_mapping[status]
+                        item = ': '.join(parts)
+                    doc.add_paragraph(item)
+                doc.add_paragraph()
+
+            file_stream = io.BytesIO()
+            doc.save(file_stream)
+            file_stream.seek(0)
+            return send_file(file_stream, as_attachment=True, download_name='configurations.docx', mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     return redirect('/personal_account')
 
 if __name__ == '__main__':

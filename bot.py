@@ -180,6 +180,7 @@ def get_sborki_data_from_db(username: str) -> str:
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     stage = context.user_data.get('stage')
     logging.info(f'Текущее действие: {stage}')
+    
     if stage == 'writing_request':
         request_text = update.message.text
         username = context.user_data.get('username')
@@ -189,18 +190,29 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if '\n' in request_text:
             await update.message.reply_text('Заявка не может быть отправлена, так как в ней используются абзацы. Пожалуйста, отправьте заявку заново без абзацев.')
         else:
-            # Обновление заявок в базе данных
-            update_user_request_in_db(username, request_text)
-            await context.bot.send_message(
-                chat_id=TARGET_USER_ID,
-                text=f'Заявка от {username}: {request_text}'
-            )
-            await update.message.reply_text('Ваша заявка отправлена.')
-            context.user_data['stage'] = 'menu'
+            # Проверка длины слов
+            words = request_text.split()
+            too_long_words = [word for word in words if len(word) > 20]
+            
+            if too_long_words:
+                long_words_list = ', '.join(too_long_words)
+                await update.message.reply_text(f'Вы используете слишком длинные слова: {long_words_list}. Попробуйте отправить заявку ещё раз.')
+            else:
+                # Обновление заявок в базе данных
+                update_user_request_in_db(username, request_text)
+                await context.bot.send_message(
+                    chat_id=TARGET_USER_ID,
+                    text=f'Заявка от {username}: {request_text}'
+                )
+                await update.message.reply_text('Ваша заявка отправлена.')
+                context.user_data['stage'] = 'menu'
+    
     elif stage == 'awaiting_username':
         await check_username(update, context)
+    
     elif stage == 'awaiting_password':
         await check_password(update, context)
+    
     else:
         await update.message.reply_text('Пожалуйста, используйте команды /start, чтобы начать заново.')
 

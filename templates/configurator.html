@@ -39,7 +39,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Function to fetch and display price history
         async function fetchAndDisplayPriceHistory(detailName, chartId) {
             try {
                 const response = await fetch(`/get_price_history/${encodeURIComponent(detailName)}`);
@@ -168,7 +167,6 @@
     .price-chart {
         display: none;
     }
-    /* Добавить стили для кнопки "Сохранить" */
     #save-button {
         display: none;
         padding: 10px 20px;
@@ -479,7 +477,7 @@
     if (configSection && sectionNames[section]) {
         configSection.innerHTML = `<h3>${sectionNames[section]}: ${name}</h3>`;
     }
-    checkSaveButton(); // Добавляем проверку кнопки после обновления раздела
+    checkSaveButton();
 }
 function checkSaveButton() {
     const sections = ['processor', 'plata', 'ohlad', 'ozu', 'video', 'power', 'ssd', 'case'];
@@ -508,7 +506,7 @@ function setupAddButtons() {
         btn.addEventListener('click', function() {
             var component = btn.closest('.component-info');
             var componentName = component.querySelector('h2').textContent;
-            var section = btn.closest('.component').id; // Получаем id родительского элемента
+            var section = btn.closest('.component').id;
             addToConfiguration(section, componentName);
         });
     });
@@ -521,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveButton = document.getElementById('save-button');
     if (saveButton) {
         saveButton.addEventListener('click', function() {
-            // Collect configuration data
             const config = {};
             const sections = ['processor', 'plata', 'ohlad', 'ozu', 'video', 'power', 'ssd', 'case'];
             sections.forEach(section => {
@@ -530,8 +527,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     config[section] = configSection.innerText.replace(`${section[0].toUpperCase() + section.slice(1)}: `, '').trim();
                 }
             });
-
-            // Send the data to the server
             fetch('/save_configuration', {
                 method: 'POST',
                 headers: {
@@ -541,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => {
                 if (response.redirected) {
-                    window.location.href = response.url; // Redirect if not authenticated
+                    window.location.href = response.url;
                 } else {
                     return response.json();
                 }

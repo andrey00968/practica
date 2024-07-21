@@ -15,8 +15,8 @@
             text-align: left;
         }
         th {
-            background-color: #4CAF50; /* Зелёный цвет фона для заголовков */
-            color: white; /* Белый цвет текста */
+            background-color: #4CAF50;
+            color: white;
         }
         th:nth-child(1) {
             width: 10%;
@@ -27,28 +27,34 @@
         th:nth-child(3) {
             width: 20%;
         }
-        .button-link {
-        display: inline-block;
-        padding: 10px 20px;
-        margin-top: 20px;
-        color: white;
-        background-color: #00aaff;
-        border: none;
-        border-radius: 5px;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-        margin-right: 10px; /* Разделение кнопок */
-    }
-    .button-link:hover {
-        background-color: #0088cc;
-    }
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        margin-top: 20px;
-    }
+        .button-link, .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            color: white;
+            background-color: #00aaff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .button-link:hover, .download-btn.docx:hover {
+            background-color: #0088cc;
+        }
+        .download-btn.docx {
+            background-color: #0000ff;
+        }
+        .download-btn.xlsx {
+            background-color: #008000;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +92,7 @@
         </table>
         <div class="container">
             <button class="button-link" onclick="location.href='{{ url_for('configurator') }}'">Собрать конфигурацию</button>
+            <a href="{{ url_for('download_config_docx') }}" class="download-btn docx">Скачать DOCX</a>
         </div>
     </main>
 </body>
