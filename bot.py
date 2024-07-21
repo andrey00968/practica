@@ -135,7 +135,7 @@ async def button_pressed(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(f'Ваши заявки:\n{requests_data}')
     elif query.data == 'my_configurations':
         configurations_data = get_sborki_data_from_db(username)
-        await query.message.reply_text(f'Ваши конфигурации:\n\n{configurations_data} \n1 - конфигурация принята, 2 - конфигурация выполнена, 3 - конфигурация отклонена')
+        await query.message.reply_text(f'Ваши конфигурации:\n\n{configurations_data} \n\n\n1 - конфигурация принята, 2 - конфигурация выполнена, 3 - конфигурация отклонена')
     elif query.data == 'go_back':
         keyboard = [
             [
@@ -155,7 +155,7 @@ def get_requests_data_from_db(username: str) -> str:
         row = cur.fetchone()
         if row:
             data = str(row[0])
-            data += '\n\n1 - заявка принята, 2 - заявка выполнена, 3 - заявка отклонена'
+            data += '\n1 - заявка принята, 2 - заявка выполнена, 3 - заявка отклонена'
         conn.close()
     else:
         logging.error("Ошибка соединения с базой данных")
